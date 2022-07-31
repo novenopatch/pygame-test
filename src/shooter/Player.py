@@ -1,21 +1,22 @@
 import pygame
 from Projectile import Projectile
+from  Animation import AnimateSprite
 
 
-class Player(pygame.sprite.Sprite):
+class Player(AnimateSprite):
     def __init__(self, game):
-        super().__init__()
+        super().__init__('player')
         self.game = game
         self.health = 100
         self.maxHealth = 100
         self.attack = 10
         self.velocity = 5
-        self.image = pygame.image.load('assets/player.png')
         self.rect = self.image.get_rect()
         self.rect.x = 400
         self.rect.y = 500
         self.allProjectiles = pygame.sprite.Group()
-
+    def updateAnimation(self):
+        self.animate()
     def damage(self, amount: int):
         if self.health - amount > amount:
             self.health -= amount
@@ -32,6 +33,7 @@ class Player(pygame.sprite.Sprite):
 
     def launchProjectile(self):
         self.allProjectiles.add(Projectile(self))
+        self.startAnimation()
 
     def move(self, direction: str):
         if not self.game.checkCollison(self, self.game.allMonsters):

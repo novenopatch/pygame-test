@@ -3,6 +3,9 @@ from Game import Game
 import math
 
 pygame.init()
+
+clock = pygame.time.Clock()
+FPS = 120
 screenT = (1080, 720)
 
 # make root
@@ -52,4 +55,5 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if playButtonRect.collidepoint(event.pos):
                 game.start()
+    clock.tick(FPS)
 
