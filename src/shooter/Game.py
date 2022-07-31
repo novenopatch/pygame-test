@@ -11,10 +11,12 @@ class Game:
         self.pressed = {}
         self.allMonsters = pygame.sprite.Group()
         self.spawnMonster()
+        self.spawnMonster()
 
     def spawnMonster(self):
         monster = Monster(self)
         self.allMonsters.add(monster)
 
     def checkCollison(self, sprite, group):
+
         return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)

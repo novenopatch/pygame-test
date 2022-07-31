@@ -18,13 +18,15 @@ while running:
     screen.blit(background, (0, -200))
 
     screen.blit(game.player.image, game.player.rect)
+    game.player.updateHeathBar(screen)
     for projectile in game.player.allProjectiles:
         projectile.move()
     for monster in game.allMonsters:
         monster.forward()
+        monster.updateHeathBar(screen)
     game.allMonsters.draw(screen)
     game.player.allProjectiles.draw(screen)
-    if game.pressed.get(pygame.K_RIGHT) and game.player.rect.x + game.player.rect.width < screen.get_width() :
+    if game.pressed.get(pygame.K_RIGHT) and game.player.rect.x + game.player.rect.width < screen.get_width():
         game.player.move("right")
     if game.pressed.get(pygame.K_LEFT) and game.player.rect.x > 0:
         game.player.move("left")
