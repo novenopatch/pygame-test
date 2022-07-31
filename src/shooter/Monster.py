@@ -20,9 +20,10 @@ class Monster(pygame.sprite.Sprite):
             #le faire revivre
             self.rect.x = 950 + random.randint(0, 300)
             self.health = self.maxHealth
-            self.velocity = random.randint(1, 4)
+            self.velocity = random.randint(1, 3)
             if self.game.cometEvent.isFullLoaded():
                 self.game.allMonsters.remove(self)
+                self.game.cometEvent.attemptFall()
     def updateHeathBar(self,surface):
 
         #position barPosition= [x,y,w,h]

@@ -22,3 +22,8 @@ class Comet(pygame.sprite.Sprite):
             self.cometEvent.game.player.damage(20)
     def remove(self):
         self.cometEvent.allComets.remove(self)
+        #v nbr comm
+        if len(self.cometEvent.allComets) ==0:
+            self.cometEvent.resetPercent()
+            self.cometEvent.game.spawnMonster()
+            self.cometEvent.game.spawnMonster()

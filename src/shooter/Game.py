@@ -20,6 +20,8 @@ class Game:
         self.spawnMonster()
     def gameOver(self):
         self.allMonsters = pygame.sprite.Group()
+        self.cometEvent.allComets = pygame.sprite.Group()
+        self.cometEvent.resetPercent()
         self.player.health = self.player.maxHealth
         self.isPlaying = False
     def update(self,screen):
