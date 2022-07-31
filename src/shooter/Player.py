@@ -16,9 +16,12 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = 500
         self.allProjectiles = pygame.sprite.Group()
 
-    def damage(self, amount:int):
+    def damage(self, amount: int):
         if self.health - amount > amount:
-                self.health -= amount
+            self.health -= amount
+        else:
+            self.game.gameOver()
+
     def updateHeathBar(self, surface):
 
         # position barPosition= [x,y,w,h]
@@ -26,6 +29,7 @@ class Player(pygame.sprite.Sprite):
         # draw
         pygame.draw.rect(surface, (60, 63, 60), [self.rect.x + 50, self.rect.y + 20, self.maxHealth, 7])
         pygame.draw.rect(surface, (111, 210, 46), [self.rect.x + 50, self.rect.y + 20, self.health, 7])
+
     def launchProjectile(self):
         self.allProjectiles.add(Projectile(self))
 

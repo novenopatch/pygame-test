@@ -13,7 +13,7 @@ class Monster(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 950 + random.randint(0, 300)
         self.rect.y = 550
-        self.velocity =random.randint(1, 4)
+        self.velocity = random.randint(1, 4)
     def damage(self,amount:int):
         self.health -= amount
         if self.health <= 0:
@@ -21,6 +21,8 @@ class Monster(pygame.sprite.Sprite):
             self.rect.x = 950 + random.randint(0, 300)
             self.health = self.maxHealth
             self.velocity = random.randint(1, 4)
+            if self.game.cometEvent.isFullLoaded():
+                self.game.allMonsters.remove(self)
     def updateHeathBar(self,surface):
 
         #position barPosition= [x,y,w,h]

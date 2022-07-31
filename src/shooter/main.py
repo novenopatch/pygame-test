@@ -1,5 +1,6 @@
 import pygame
 from Game import Game
+import math
 
 pygame.init()
 screenT = (1080, 720)
@@ -8,6 +9,17 @@ screenT = (1080, 720)
 pygame.display.set_caption("Comet fall Game")
 screen = pygame.display.set_mode(screenT)
 background = pygame.image.load('assets/bg.jpg')
+
+banner = pygame.image.load("assets/banner.png")
+banner = pygame.transform.scale(banner,(500,500))
+bannerRect = banner.get_rect()
+bannerRect.x = math.ceil(screen.get_width() / 4)
+
+playButton = pygame.image.load("assets/button.png")
+playButton = pygame.transform.scale(playButton,(400,150))
+playButtonRect = playButton.get_rect()
+playButtonRect.x = math.ceil(screen.get_width() / 3.33)
+playButtonRect.y = math.ceil(screen.get_height() / 2)
 # create game
 game = Game()
 running = True
@@ -17,19 +29,12 @@ while running:
     # get event loop
     screen.blit(background, (0, -200))
 
-    screen.blit(game.player.image, game.player.rect)
-    game.player.updateHeathBar(screen)
-    for projectile in game.player.allProjectiles:
-        projectile.move()
-    for monster in game.allMonsters:
-        monster.forward()
-        monster.updateHeathBar(screen)
-    game.allMonsters.draw(screen)
-    game.player.allProjectiles.draw(screen)
-    if game.pressed.get(pygame.K_RIGHT) and game.player.rect.x + game.player.rect.width < screen.get_width():
-        game.player.move("right")
-    if game.pressed.get(pygame.K_LEFT) and game.player.rect.x > 0:
-        game.player.move("left")
+    if game.isPlaying:
+        game.update(screen)
+    else:
+
+        screen.blit(playButton,playButtonRect)
+        screen.blit(banner, bannerRect)
 
     #print(game.player.rect.x)
     # refresh screen
@@ -44,3 +49,7 @@ while running:
                 game.player.launchProjectile()
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if playButtonRect.collidepoint(event.pos):
+                game.start()
+
