@@ -26,6 +26,7 @@ class Comet(pygame.sprite.Sprite):
 
     def remove(self):
         self.cometEvent.allComets.remove(self)
+        self.cometEvent.game.soundManager.play("meteorite")
         # v nbr comm
         if len(self.cometEvent.allComets) == 0:
             self.cometEvent.resetPercent()

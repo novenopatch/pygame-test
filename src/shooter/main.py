@@ -4,8 +4,8 @@ import math
 
 pygame.init()
 
-clock = pygame.time.Clock()
-FPS = 120
+#clock = pygame.time.Clock()
+#FPS = 120
 screenT = (1080, 720)
 
 # make root
@@ -49,11 +49,16 @@ while running:
         elif event.type == pygame.KEYDOWN:
             game.pressed[event.key] = True
             if event.key == pygame.K_SPACE:
-                game.player.launchProjectile()
+                if game.isPlaying:
+                    game.player.launchProjectile()
+                else:
+                    game.start()
+                    game.soundManager.play('click')
         elif event.type == pygame.KEYUP:
             game.pressed[event.key] = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if playButtonRect.collidepoint(event.pos):
                 game.start()
-    clock.tick(FPS)
+                game.soundManager.play('click')
+    #clock.tick(FPS)
 

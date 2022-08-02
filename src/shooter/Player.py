@@ -34,6 +34,7 @@ class Player(AnimateSprite):
     def launchProjectile(self):
         self.allProjectiles.add(Projectile(self))
         self.startAnimation()
+        self.game.soundManager.play("tir")
 
     def move(self, direction: str):
         if not self.game.checkCollison(self, self.game.allMonsters):

@@ -1,7 +1,9 @@
+import pygame
 from Player import Player
 from Monster import Mummy, Alien
 from CometEvent import CometFallEvent
-import pygame
+from Sounds import  SoundManager
+
 
 
 class Game:
@@ -14,6 +16,12 @@ class Game:
         self.pressed = {}
         self.allMonsters = pygame.sprite.Group()
         self.cometEvent = CometFallEvent(self)
+        self.score = 0
+        self.font = pygame.font.SysFont("monospace", 16)
+        self.soundManager = SoundManager()
+
+    def addScore(self, points=10):
+        self.score += points
     def start(self):
         self.isPlaying = True
         self.spawnMonster(Mummy)
@@ -25,7 +33,14 @@ class Game:
         self.cometEvent.resetPercent()
         self.player.health = self.player.maxHealth
         self.isPlaying = False
+        self.score = 0
+        self.soundManager.play("gameOver")
     def update(self,screen):
+        #score
+
+        #font = pygame.font.Font("/asste/monospace", 16)
+        scoreText = self.font.render(f"Score : {self.score}",1,(0,0,0))
+        screen.blit(scoreText,(20,20))
         screen.blit(self.player.image, self.player.rect)
         self.player.updateHeathBar(screen)
         self.player.updateAnimation()
