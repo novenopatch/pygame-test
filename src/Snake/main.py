@@ -12,7 +12,7 @@ class Snake:
         self.newBlock = False
 
         self.headUp = pygame.transform.scale(pygame.image.load('assets/head_up.png').convert_alpha(),
-                                             (int(cellSize), int(cellSize)))
+                                             (int(cellSize) + 1, int(cellSize) + 1))
         self.headDown = pygame.transform.scale(pygame.image.load('assets/head_down.png').convert_alpha(),
                                                (int(cellSize), int(cellSize)))
         self.headRight = pygame.transform.scale(pygame.image.load('assets/head_right.png').convert_alpha(),
@@ -29,19 +29,20 @@ class Snake:
         self.tailLeft = pygame.transform.scale(pygame.image.load("assets/tail_left.png").convert_alpha(),
                                                (int(cellSize), int(cellSize)))
 
-        self.bodyVertical = pygame.transform.scale(pygame.image.load("assets/body_vertical.png").convert_alpha(),
+        self.bodyVertical = pygame.transform.scale(pygame.image.load(
+            "assets/body_vertical.png").convert_alpha(),
                                                    (int(cellSize), int(cellSize)))
         self.bodyHorizontal = pygame.transform.scale(pygame.image.load("assets/body_horizontal.png").convert_alpha(),
                                                      (int(cellSize), int(cellSize)))
 
-        self.bodyUp = pygame.transform.scale(pygame.image.load("assets/body_up.png").convert_alpha(),
-                                             (int(cellSize), int(cellSize)))
-        self.bodyDown = pygame.transform.scale(pygame.image.load("assets/body_down.png").convert_alpha(),
-                                               (int(cellSize), int(cellSize)))
-        self.bodyRight = pygame.transform.scale(pygame.image.load("assets/body_right.png").convert_alpha(),
-                                                (int(cellSize), int(cellSize)))
-        self.bodyLeft = pygame.transform.scale(pygame.image.load("assets/body_left.png").convert_alpha(),
-                                               (int(cellSize), int(cellSize)))
+        self.tr = pygame.transform.scale(pygame.image.load("assets/body_tr.png").convert_alpha(),
+                                         (int(cellSize) , int(cellSize)))
+        self.tl = pygame.transform.scale(pygame.image.load("assets/body_tl.png").convert_alpha(),
+                                         (int(cellSize) , int(cellSize) ))
+        self.br = pygame.transform.scale(pygame.image.load("assets/body_br.png").convert_alpha(),
+                                         (int(cellSize), int(cellSize)))
+        self.bl = pygame.transform.scale(pygame.image.load("assets/body_bl.png").convert_alpha(),
+                                         (int(cellSize), int(cellSize)))
 
     def drawSnake(self):
         self.updateHeadGraphics()
@@ -52,10 +53,24 @@ class Snake:
             blockRect = pygame.Rect(posX, posY, cellSize, cellSize)
             if index == 0:
                 screen.blit(self.head, blockRect)
-            elif index == len(self.body) -1 :
-                screen.blit(self.tail,blockRect)
+            elif index == len(self.body) - 1:
+                screen.blit(self.tail, blockRect)
             else:
-                pygame.draw.rect(screen, (150, 100, 100), blockRect)
+                previousBlock = self.body[index + 1] - block
+                nextBlock = self.body[index - 1] - block
+                if previousBlock.x == nextBlock.x:
+                    screen.blit(self.bodyVertical, blockRect)
+                elif previousBlock.y == nextBlock.y:
+                    screen.blit(self.bodyHorizontal, blockRect)
+                else:
+                    if previousBlock.x == -1 and nextBlock.y == -1 or previousBlock.y == -1 and nextBlock.x == -1:
+                        screen.blit(self.tl, blockRect)
+                    if previousBlock.x == -1 and nextBlock.y == 1 or previousBlock.y == 1 and nextBlock.x == -1:
+                        screen.blit(self.bl, blockRect)
+                    if previousBlock.x == 1 and nextBlock.y == -1 or previousBlock.y == -1 and nextBlock.x == 1:
+                        screen.blit(self.tr, blockRect)
+                    if previousBlock.x == 1 and nextBlock.y == 1 or previousBlock.y == 1 and nextBlock.x == 1:
+                        screen.blit(self.br, blockRect)
 
     def moveSnake(self):
         if self.newBlock == True:
@@ -91,21 +106,25 @@ class Snake:
 
     def updateHeadGraphics(self):
         headRelation = self.body[1] - self.body[0]
-        if headRelation == pygame.math.Vector2(1,0): self.head = self.headLeft
-        elif headRelation == pygame.math.Vector2(-1,0): self.head = self.headRight
-        elif headRelation == pygame.math.Vector2(0,1): self.head = self.headUp
-        elif headRelation == pygame.math.Vector2(0,-1): self.head = self.headDown
+        if headRelation == pygame.math.Vector2(1, 0):
+            self.head = self.headLeft
+        elif headRelation == pygame.math.Vector2(-1, 0):
+            self.head = self.headRight
+        elif headRelation == pygame.math.Vector2(0, 1):
+            self.head = self.headUp
+        elif headRelation == pygame.math.Vector2(0, -1):
+            self.head = self.headDown
 
     def updateTailGraphics(self):
-        tailRelation = self.body[2] - self.body[1]
+        tailRelation = self.body[-2] - self.body[-1]
         if tailRelation == pygame.math.Vector2(1, 0):
-            self.tail = self.tailLeft
-        elif tailRelation == pygame.math.Vector2(-1, 0):
             self.tail = self.tailRight
+        elif tailRelation == pygame.math.Vector2(-1, 0):
+            self.tail = self.tailLeft
         elif tailRelation == pygame.math.Vector2(0, 1):
-            self.tail = self.tailUp
-        elif tailRelation == pygame.math.Vector2(0, -1):
             self.tail = self.tailDown
+        elif tailRelation == pygame.math.Vector2(0, -1):
+            self.tail = self.tailUp
 
 
 class Fruit(pygame.sprite.Sprite):
