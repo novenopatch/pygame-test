@@ -7,7 +7,7 @@ class Snake:
         self.RIGHT = "right"
         self.LEFT = "left"
         self.body = [pygame.math.Vector2(5,10),pygame.math.Vector2(4,10),pygame.math.Vector2(3,10)]
-        self.direction = pygame.math.Vector2(1,0)
+        self.direction =  pygame.math.Vector2(1,0)
         self.newBlock = False
 
     def drawSnake(self):
@@ -40,13 +40,9 @@ class Snake:
         if direction == self.LEFT:
             self.direction = pygame.math.Vector2(-1, 0)
 
-class Fruit(pygame.sprite.Sprite):
+class Fruit:
     def __init__(self):
-        super(Fruit).__init__()
         self.randomize()
-        self.image = pygame.image.load(f"assets/fruit2.png")
-        self.image = pygame.transform.scale(self.image,(int(self.pos.x * cellSize) -10,int(self.pos.y * cellSize) -10  ))
-        self.imageRect = self.image.get_rect()
     def randomize(self):
         self.x = random.randint(0, cellNumber - 1)
         self.y = random.randint(0, cellNumber - 1)
@@ -54,10 +50,7 @@ class Fruit(pygame.sprite.Sprite):
     def drawFruit(self):
         #create rectable
         fruitRect = pygame.Rect(int(self.pos.x * cellSize),int(self.pos.y * cellSize),cellSize,cellSize)
-        #{random.randint(1,2)}
-
-        screen.blit(self.image,fruitRect)
-        #pygame.draw.rect(screen,(126,166,144),fruitRect)
+        pygame.draw.rect(screen,(126,166,144),fruitRect)
 
 
 class Main:
@@ -120,7 +113,7 @@ while running:
                 mainGame.snake.changeDirection(mainGame.snake.LEFT)
             if event.key == pygame.K_RIGHT:
                 mainGame.snake.changeDirection(mainGame.snake.RIGHT)
-    screen.fill((215, 215, 100))
+    screen.fill((175, 215, 70))
     mainGame.drawElements()
     pygame.display.update()
     clock.tick(60)
