@@ -7,7 +7,7 @@ class Snake:
         self.RIGHT = "right"
         self.LEFT = "left"
         self.body = [pygame.math.Vector2(5,10),pygame.math.Vector2(6,10),pygame.math.Vector2(7,10)]
-        self.direction =  pygame.math.Vector2(1,0)
+        self.direction =  pygame.math.Vector2(-1,0)
         self.newBlock = False
 
     def drawSnake(self):
