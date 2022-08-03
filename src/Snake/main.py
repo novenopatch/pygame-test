@@ -32,17 +32,13 @@ class Snake:
         self.newBlock = True
     def changeDirection(self,direction:str):
         if direction == self.UP:
-            if self.direction.y != 1:
-                self.direction = pygame.math.Vector2(0, -1)
+            self.direction = pygame.math.Vector2(0, -1)
         if direction == self.DOWN:
-            if self.direction.y != -1:
-                self.direction = pygame.math.Vector2(0, 1)
+            self.direction = pygame.math.Vector2(0, 1)
         if direction == self.RIGHT:
-            if self.direction.x != -1:
-                self.direction = pygame.math.Vector2(1, 0)
+            self.direction = pygame.math.Vector2(1, 0)
         if direction == self.LEFT:
-            if self.direction.x != 1:
-                self.direction = pygame.math.Vector2(-1, 0)
+            self.direction = pygame.math.Vector2(-1, 0)
 
 class Fruit(pygame.sprite.Sprite):
     def __init__(self):
