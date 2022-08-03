@@ -98,8 +98,8 @@ cellSize = 40
 cellNumber = 20
 screen = pygame.display.set_mode((cellNumber * cellSize, cellNumber * cellSize))
 clock = pygame.time.Clock()
+fruit = pygame.image.load('assets')
 running = True
-
 mainGame = Main()
 
 SCREEN_UPDATE = pygame.USEREVENT
