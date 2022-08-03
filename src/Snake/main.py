@@ -16,6 +16,7 @@ class Snake:
             posY = int(block.y * cellSize)
             blockRect = pygame.Rect(posX,posY,cellSize,cellSize)
             pygame.draw.rect(screen, (183, 111, 122), blockRect)
+
     def moveSnake(self):
         if self.newBlock == True:
             bodyCopy = self.body[:]
@@ -65,7 +66,16 @@ class Main:
         if self.fruit.pos == self.snake.body[0]:
             self.fruit.randomize()
             self.snake.adBlock()
-            #self.snake.moveSnake()
+    def checkFail(self):
+        if not 0 <= self.snake.body[0].x <= cellNumber or not 0 <= self.snake.body[0].y < cellNumber:
+            self.gameOver()
+        for block in self.snake.body[1:]:
+            if block == self.snake.body[0]:
+                self.gameOver()
+
+    def gameOver(self):
+        print("game over")
+
 
 pygame.init()
 cellSize = 40
