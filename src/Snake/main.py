@@ -6,8 +6,8 @@ class Snake:
         self.DOWN = "down"
         self.RIGHT = "right"
         self.LEFT = "left"
-        self.body = [pygame.math.Vector2(5,10),pygame.math.Vector2(6,10),pygame.math.Vector2(7,10)]
-        self.direction =  pygame.math.Vector2(-1,0)
+        self.body = [pygame.math.Vector2(5,10),pygame.math.Vector2(4,10),pygame.math.Vector2(3,10)]
+        self.direction =  pygame.math.Vector2(1,0)
         self.newBlock = False
 
     def drawSnake(self):
@@ -59,6 +59,9 @@ class Main:
         self.fruit = Fruit()
     def update(self):
         self.snake.moveSnake()
+        self.checkCollision()
+        self.checkFail()
+
     def drawElements(self):
         self.snake.drawSnake()
         self.fruit.drawFruit()
@@ -67,14 +70,19 @@ class Main:
             self.fruit.randomize()
             self.snake.adBlock()
     def checkFail(self):
-        if not 0 <= self.snake.body[0].x <= cellNumber or not 0 <= self.snake.body[0].y < cellNumber:
+        if not 0 <= self.snake.body[0].x < cellNumber or not 0 <= self.snake.body[0].y < cellNumber:
             self.gameOver()
         for block in self.snake.body[1:]:
             if block == self.snake.body[0]:
+                print(f"{block},b{self.snake.body[0]}")
                 self.gameOver()
 
     def gameOver(self):
-        print("game over")
+
+
+        pygame.quit()
+        sys.exit()
+
 
 
 pygame.init()
@@ -107,6 +115,5 @@ while running:
                 mainGame.snake.changeDirection(mainGame.snake.RIGHT)
     screen.fill((175, 215, 70))
     mainGame.drawElements()
-    mainGame.checkCollision()
     pygame.display.update()
     clock.tick(60)
