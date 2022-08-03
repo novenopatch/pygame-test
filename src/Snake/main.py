@@ -44,17 +44,16 @@ class Snake:
                                                (int(cellSize), int(cellSize)))
 
     def drawSnake(self):
-        # for block in self.body:
-        #    posX = int(block.x * cellSize)
-        #    posY = int(block.y * cellSize)
-        #    blockRect = pygame.Rect(posX,posY,cellSize,cellSize)
-        #    pygame.draw.rect(screen, (183, 111, 122), blockRect)
+        self.updateHeadGraphics()
+        self.updateTailGraphics()
         for index, block in enumerate(self.body):
             posX = int(block.x * cellSize)
             posY = int(block.y * cellSize)
             blockRect = pygame.Rect(posX, posY, cellSize, cellSize)
             if index == 0:
-                screen.blit(self.headRight, blockRect)
+                screen.blit(self.head, blockRect)
+            elif index == len(self.body) -1 :
+                screen.blit(self.tail,blockRect)
             else:
                 pygame.draw.rect(screen, (150, 100, 100), blockRect)
 
@@ -90,10 +89,28 @@ class Snake:
             if self.direction.x != 1:
                 self.direction = pygame.math.Vector2(-1, 0)
 
+    def updateHeadGraphics(self):
+        headRelation = self.body[1] - self.body[0]
+        if headRelation == pygame.math.Vector2(1,0): self.head = self.headLeft
+        elif headRelation == pygame.math.Vector2(-1,0): self.head = self.headRight
+        elif headRelation == pygame.math.Vector2(0,1): self.head = self.headUp
+        elif headRelation == pygame.math.Vector2(0,-1): self.head = self.headDown
+
+    def updateTailGraphics(self):
+        tailRelation = self.body[2] - self.body[1]
+        if tailRelation == pygame.math.Vector2(1, 0):
+            self.tail = self.tailLeft
+        elif tailRelation == pygame.math.Vector2(-1, 0):
+            self.tail = self.tailRight
+        elif tailRelation == pygame.math.Vector2(0, 1):
+            self.tail = self.tailUp
+        elif tailRelation == pygame.math.Vector2(0, -1):
+            self.tail = self.tailDown
+
 
 class Fruit(pygame.sprite.Sprite):
     def __init__(self):
-        # super().__init__()
+        super().__init__()
         self.randomize()
 
     def randomize(self):
