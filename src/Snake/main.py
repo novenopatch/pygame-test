@@ -50,11 +50,8 @@ class Snake:
 
 class Fruit(pygame.sprite.Sprite):
     def __init__(self):
-        super(Fruit).__init__()
+        #super().__init__()
         self.randomize()
-        self.image = pygame.image.load(f"assets/fruit2.png")
-        self.image = pygame.transform.scale(self.image,(int(self.pos.x * cellSize) -10,int(self.pos.y * cellSize) -10  ))
-        self.imageRect = self.image.get_rect()
     def randomize(self):
         self.x = random.randint(0, cellNumber - 1)
         self.y = random.randint(0, cellNumber - 1)
@@ -62,10 +59,9 @@ class Fruit(pygame.sprite.Sprite):
     def drawFruit(self):
         #create rectable
         fruitRect = pygame.Rect(int(self.pos.x * cellSize),int(self.pos.y * cellSize),cellSize,cellSize)
+        screen.blit(fruit,fruitRect)
         #{random.randint(1,2)}
-
-        screen.blit(self.image,fruitRect)
-        #pygame.draw.rect(screen,(126,166,144),fruitRect)
+        #pygame.draw.rect(screen,(126,166,114),fruitRect)
 
 
 class Main:
@@ -105,7 +101,8 @@ cellSize = 40
 cellNumber = 20
 screen = pygame.display.set_mode((cellNumber * cellSize, cellNumber * cellSize))
 clock = pygame.time.Clock()
-fruit = pygame.image.load('assets')
+fruit = pygame.image.load(f'assets/fruit{random.randint(1,2)}.png')
+fruit = pygame.transform.scale(fruit,(int( cellSize),int(cellSize )))
 running = True
 mainGame = Main()
 
