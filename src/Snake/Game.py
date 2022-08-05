@@ -19,9 +19,8 @@ class Game:
 
     def drawElements(self,screen):
         self.drawGrass(screen)
-
-        self.snake.drawSnake(screen)
         self.fruit.drawFruit(screen)
+        self.snake.drawSnake(screen)
         self.drawScore(screen)
 
     def checkCollision(self):
@@ -48,7 +47,7 @@ class Game:
             if row % 2 ==0:
                 for col in range(self.cellNumber):
                     if col % 2 == 0 :
-                        grassRect = pygame.Rect(col * self.cellNumber,row * self.cellNumber,self.cellNumber,self.cellNumber)
+                        grassRect = pygame.Rect(col * self.cellSize,row *self.cellSize,self.cellSize,self.cellSize)
                         pygame.draw.rect(screen,grassColor,grassRect)
             else:
                 for col in range(self.cellNumber):
@@ -60,7 +59,7 @@ class Game:
         scoreSurface = self.gameFont.render(scoreText,True,(56,74,12))
         scoreX = int(self.cellSize * self.cellNumber - 60)
         scoreY = int(self.cellSize * self.cellNumber - 40)
-        scoreRect = scoreSurface.get_rect(center = (scoreX,scoreY))
+        scoreRect = scoreSurface.get_rect(center= (scoreX,scoreY))
         fruitRect = self.fruit.image.get_rect(midright=(scoreRect.left,scoreRect.centery))
         bgRect = pygame.Rect(fruitRect.left,fruitRect.top,fruitRect.width + scoreRect.width +7,fruitRect.height)
 

@@ -6,7 +6,7 @@ class Fruit(pygame.sprite.Sprite):
         super().__init__()
         self.cellNumber = cellNumber
         self.cellSize = cellSize
-        self.image = pygame.image.load(f'assets/image/fruit1.png').convert_alpha()
+        self.image = pygame.image.load('assets/image/fruit1.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (int(self.cellSize), int(self.cellSize)))
         self.randomize()
 
@@ -14,6 +14,7 @@ class Fruit(pygame.sprite.Sprite):
         self.x = random.randint(0, self.cellSize - 1)
         self.y = random.randint(0, self.cellSize - 1)
         self.pos = pygame.math.Vector2(self.x, self.y)
+        print(f"self.x: {self.x},self.y: {self.y},self.pos: {self.pos}")
 
     def drawFruit(self, screen):
         # create rectable

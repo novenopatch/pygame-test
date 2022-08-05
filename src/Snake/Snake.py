@@ -4,14 +4,13 @@ import pygame
 class Snake(pygame.sprite.Sprite):
     def __init__(self,cellSize):
         super().__init__()
+        self.cellSize = cellSize
         self.UP = "up"
         self.DOWN = "down"
         self.RIGHT = "right"
         self.LEFT = "left"
         self.reset()
         self.newBlock = False
-        self.cellSize = cellSize
-
         self.headUp = pygame.transform.scale(pygame.image.load('assets/image/head/head_up.png').convert_alpha(),
                                              (int(cellSize) + 1, int(cellSize) + 1))
         self.headDown = pygame.transform.scale(pygame.image.load('assets/image/head/head_down.png').convert_alpha(),
@@ -49,6 +48,7 @@ class Snake(pygame.sprite.Sprite):
     def drawSnake(self,screen):
         self.updateHeadGraphics()
         self.updateTailGraphics()
+        print(f"body : {self.body}")
         for index, block in enumerate(self.body):
             posX = int(block.x * self.cellSize)
             posY = int(block.y * self.cellSize)
