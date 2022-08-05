@@ -28,6 +28,9 @@ class Game:
             self.fruit.randomize()
             self.snake.adBlock()
             self.soundManager.play('eat')
+        for block in self.snake.body[1:]:
+            if block == self.fruit.pos:
+                self.fruit.randomize()
 
     def checkFail(self):
         if not 0 <= self.snake.body[0].x < self.cellNumber or not 0 <= self.snake.body[0].y < self.cellNumber:
@@ -57,10 +60,14 @@ class Game:
         scoreSurface = self.gameFont .render(scoreText,True,(56,74,12))
         scoreX = int(self.cellSize * self.cellNumber - 60)
         scoreY = int(self.cellSize * self.cellNumber - 40)
-        scoreRect = scoreSurface.get_rect(center = (scoreX,scoreY))
-        fruitRect = self.fruit.image.get_rect(midright=(scoreRect.left,scoreRect.centery))
-        bgRect = pygame.Rect(fruitRect.left,fruitRect.top,fruitRect.width + scoreRect.width,fruitRect.height)
 
+        scoreRect = scoreSurface.get_rect(center=(scoreX, scoreY))
+        fruitRect = self.fruit.image.get_rect(midright=(scoreRect.left, scoreRect.centery))
+        bgRect = pygame.Rect(fruitRect.left, fruitRect.top, fruitRect.width + scoreRect.width + 6,
+                              fruitRect.height)
+
+        pygame.draw.rect(screen, (167, 209, 61), bgRect)
         screen.blit(scoreSurface, scoreRect)
-        screen.blit(self.fruit.image,fruitRect)
+        screen.blit(self.fruit.image, fruitRect)
+        pygame.draw.rect(screen, (56, 74, 12), bgRect, 2)
 
