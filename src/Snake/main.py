@@ -35,13 +35,13 @@ class Snake:
         self.bodyHorizontal = pygame.transform.scale(pygame.image.load("assets/body_horizontal.png").convert_alpha(),
                                                      (int(cellSize), int(cellSize)))
 
-        self.tr = pygame.transform.scale(pygame.image.load("assets/body_tr.png").convert_alpha(),
+        self.bodyTopRight = pygame.transform.scale(pygame.image.load("assets/body_tr.png").convert_alpha(),
                                          (int(cellSize) , int(cellSize)))
-        self.tl = pygame.transform.scale(pygame.image.load("assets/body_tl.png").convert_alpha(),
+        self.bodyTopLeft = pygame.transform.scale(pygame.image.load("assets/body_tl.png").convert_alpha(),
                                          (int(cellSize) , int(cellSize) ))
-        self.br = pygame.transform.scale(pygame.image.load("assets/body_br.png").convert_alpha(),
+        self.bodyDownRight = pygame.transform.scale(pygame.image.load("assets/body_br.png").convert_alpha(),
                                          (int(cellSize), int(cellSize)))
-        self.bl = pygame.transform.scale(pygame.image.load("assets/body_bl.png").convert_alpha(),
+        self.bodyDownLeft = pygame.transform.scale(pygame.image.load("assets/body_bl.png").convert_alpha(),
                                          (int(cellSize), int(cellSize)))
 
     def drawSnake(self):
@@ -64,13 +64,13 @@ class Snake:
                     screen.blit(self.bodyHorizontal, blockRect)
                 else:
                     if previousBlock.x == -1 and nextBlock.y == -1 or previousBlock.y == -1 and nextBlock.x == -1:
-                        screen.blit(self.tl, blockRect)
+                        screen.blit(self.bodyTopLeft, blockRect)
                     if previousBlock.x == -1 and nextBlock.y == 1 or previousBlock.y == 1 and nextBlock.x == -1:
-                        screen.blit(self.bl, blockRect)
+                        screen.blit(self.bodyDownLeft, blockRect)
                     if previousBlock.x == 1 and nextBlock.y == -1 or previousBlock.y == -1 and nextBlock.x == 1:
-                        screen.blit(self.tr, blockRect)
+                        screen.blit(self.bodyTopRight, blockRect)
                     if previousBlock.x == 1 and nextBlock.y == 1 or previousBlock.y == 1 and nextBlock.x == 1:
-                        screen.blit(self.br, blockRect)
+                        screen.blit(self.bodyDownRight, blockRect)
 
     def moveSnake(self):
         if self.newBlock == True:
@@ -156,6 +156,7 @@ class Main:
         self.checkFail()
 
     def drawElements(self):
+        self.drawGrass()
         self.snake.drawSnake()
         self.fruit.drawFruit()
 
@@ -175,7 +176,24 @@ class Main:
 
         pygame.quit()
         sys.exit()
-
+    def drawGrass(self):
+        grassColor = (167,209,61)
+        for row in range(cellNumber):
+            if row % 2 ==0:
+                for col in range(cellNumber):
+                    if col % 2 == 0 :
+                        grassRect = pygame.Rect(col * cellSize,row * cellSize,cellSize,cellSize)
+                        pygame.draw.rect(screen,grassColor,grassRect)
+            elif row % 6 ==0:
+                for col in range(cellNumber):
+                    if col % 2 == 0 :
+                        grassRect = pygame.Rect(col * cellSize,row * cellSize,cellSize,cellSize)
+                        pygame.draw.rect(screen,grassColor,grassRect)
+            else:
+                for col in range(cellNumber):
+                    if col % 2 != 0 :
+                        grassRect = pygame.Rect(col * cellSize,row * cellSize,cellSize,cellSize)
+                        pygame.draw.rect(screen,grassColor,grassRect)
 
 pygame.init()
 cellSize = 40
