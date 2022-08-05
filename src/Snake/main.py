@@ -1,15 +1,18 @@
 import sys, pygame, random
-
 from Game import Game
 
-pygame.mixer.pre_init(44100, -16, 2, 512)
+
 pygame.init()
 cellSize = 40
 cellNumber = 20
 screen = pygame.display.set_mode((cellNumber * cellSize, cellNumber * cellSize))
 clock = pygame.time.Clock()
+
+
+
 running = True
 mainGame = Game(cellNumber,cellSize)
+
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
 while running:
