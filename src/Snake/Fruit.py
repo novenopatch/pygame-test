@@ -2,7 +2,7 @@ import random,pygame
 
 
 class Fruit(pygame.sprite.Sprite):
-    def __init__(self,cellNumber,cellSize):
+    def __init__(self,cellNumber:int,cellSize:int):
         super().__init__()
         self.cellSize = cellSize
         self.cellNumber = cellNumber
