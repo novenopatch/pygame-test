@@ -88,19 +88,19 @@ class Snake:
 
     def changeDirection(self, direction: str):
         if direction == self.UP:
-            self.direction = pygame.math.Vector2(0, -1)
+            #self.direction = pygame.math.Vector2(0, -1)
             if self.direction.y != 1:
                 self.direction = pygame.math.Vector2(0, -1)
         if direction == self.DOWN:
-            self.direction = pygame.math.Vector2(0, 1)
+            #self.direction = pygame.math.Vector2(0, 1)
             if self.direction.y != -1:
                 self.direction = pygame.math.Vector2(0, 1)
         if direction == self.RIGHT:
-            self.direction = pygame.math.Vector2(1, 0)
+            #self.direction = pygame.math.Vector2(1, 0)
             if self.direction.x != -1:
                 self.direction = pygame.math.Vector2(1, 0)
         if direction == self.LEFT:
-            self.direction = pygame.math.Vector2(-1, 0)
+            #self.direction = pygame.math.Vector2(-1, 0)
             if self.direction.x != 1:
                 self.direction = pygame.math.Vector2(-1, 0)
 
@@ -157,6 +157,7 @@ class Main:
 
     def drawElements(self):
         self.drawGrass()
+        self.drawScore()
         self.snake.drawSnake()
         self.fruit.drawFruit()
 
@@ -184,16 +185,23 @@ class Main:
                     if col % 2 == 0 :
                         grassRect = pygame.Rect(col * cellSize,row * cellSize,cellSize,cellSize)
                         pygame.draw.rect(screen,grassColor,grassRect)
-            elif row % 6 ==0:
-                for col in range(cellNumber):
-                    if col % 2 == 0 :
-                        grassRect = pygame.Rect(col * cellSize,row * cellSize,cellSize,cellSize)
-                        pygame.draw.rect(screen,grassColor,grassRect)
             else:
                 for col in range(cellNumber):
                     if col % 2 != 0 :
                         grassRect = pygame.Rect(col * cellSize,row * cellSize,cellSize,cellSize)
                         pygame.draw.rect(screen,grassColor,grassRect)
+    def drawScore(self):
+        scoreText = str(len(self.snake.body) -3)
+        scoreSurface = gameFont .render(scoreText,True,(56,74,12))
+        scoreX = int(cellSize * cellNumber - 60)
+        scoreY = int(cellSize * cellNumber - 40)
+        scoreRect = scoreSurface.get_rect(center = (scoreX,scoreY))
+        fruitRect = fruit.get_rect(midright=(scoreRect.left,scoreRect.centery))
+        bgRect = pygame.Rect(fruitRect.left,fruitRect.top,fruitRect.width + scoreRect.width,fruitRect.height)
+
+        screen.blit(scoreSurface, scoreRect)
+        screen.blit(fruit,fruitRect)
+
 
 pygame.init()
 cellSize = 40
@@ -202,6 +210,8 @@ screen = pygame.display.set_mode((cellNumber * cellSize, cellNumber * cellSize))
 clock = pygame.time.Clock()
 fruit = pygame.image.load(f'assets/fruit{random.randint(1, 2)}.png').convert_alpha()
 fruit = pygame.transform.scale(fruit, (int(cellSize), int(cellSize)))
+
+gameFont = pygame.font.SysFont("monospace",25)
 running = True
 mainGame = Main()
 
