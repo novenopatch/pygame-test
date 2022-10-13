@@ -1,6 +1,5 @@
 import sys, pygame, random
 from Game import Game
-
 pygame.init()
 cellSize = 40
 cellNumber = 20
