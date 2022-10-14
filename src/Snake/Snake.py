@@ -1,7 +1,8 @@
-import  pygame
+import pygame
+
 
 class Snake:
-    def __init__(self,cellSize):
+    def __init__(self, cellSize):
         self.UP = "up"
         self.DOWN = "down"
         self.RIGHT = "right"
@@ -12,13 +13,13 @@ class Snake:
 
         self.newBlock = False
 
-
         self.headUp = pygame.transform.scale(pygame.image.load('assets/image/head/new/head_up.png').convert_alpha(),
                                              (int(self.cellSize) + 1, int(self.cellSize) + 1))
         self.headDown = pygame.transform.scale(pygame.image.load('assets/image/head/new/head_down.png').convert_alpha(),
                                                (int(self.cellSize), int(self.cellSize)))
-        self.headRight = pygame.transform.scale(pygame.image.load('assets/image/head/new/head_right.png').convert_alpha(),
-                                                (int(self.cellSize), int(self.cellSize)))
+        self.headRight = pygame.transform.scale(
+            pygame.image.load('assets/image/head/new/head_right.png').convert_alpha(),
+            (int(self.cellSize), int(self.cellSize)))
         self.headLeft = pygame.transform.scale(pygame.image.load('assets/image/head/new/head_left.png').convert_alpha(),
                                                (int(self.cellSize), int(self.cellSize)))
 
@@ -26,8 +27,9 @@ class Snake:
                                              (int(self.cellSize), int(self.cellSize)))
         self.tailDown = pygame.transform.scale(pygame.image.load("assets/image/tail/new/tail_down.png").convert_alpha(),
                                                (int(self.cellSize), int(self.cellSize)))
-        self.tailRight = pygame.transform.scale(pygame.image.load("assets/image/tail/new/tail_right.png").convert_alpha(),
-                                                (int(self.cellSize), int(self.cellSize)))
+        self.tailRight = pygame.transform.scale(
+            pygame.image.load("assets/image/tail/new/tail_right.png").convert_alpha(),
+            (int(self.cellSize), int(self.cellSize)))
         self.tailLeft = pygame.transform.scale(pygame.image.load("assets/image/tail/new/tail_left.png").convert_alpha(),
                                                (int(self.cellSize), int(self.cellSize)))
 
@@ -38,16 +40,20 @@ class Snake:
             "assets/image/body/new/body_horizontal.png").convert_alpha(),
                                                      (int(self.cellSize), int(self.cellSize)))
 
-        self.bodyTopRight = pygame.transform.scale(pygame.image.load("assets/image/body/new/body_tr.png").convert_alpha(),
-                                                   (int(self.cellSize) , int(self.cellSize)))
-        self.bodyTopLeft = pygame.transform.scale(pygame.image.load("assets/image/body/new/body_tl.png").convert_alpha(),
-                                                  (int(self.cellSize) , int(self.cellSize) ))
-        self.bodyDownRight = pygame.transform.scale(pygame.image.load("assets/image/body/new/body_br.png").convert_alpha(),
-                                                    (int(self.cellSize), int(self.cellSize)))
-        self.bodyDownLeft = pygame.transform.scale(pygame.image.load("assets/image/body/new/body_bl.png").convert_alpha(),
-                                                   (int(self.cellSize), int(self.cellSize)))
+        self.bodyTopRight = pygame.transform.scale(
+            pygame.image.load("assets/image/body/new/body_tr.png").convert_alpha(),
+            (int(self.cellSize), int(self.cellSize)))
+        self.bodyTopLeft = pygame.transform.scale(
+            pygame.image.load("assets/image/body/new/body_tl.png").convert_alpha(),
+            (int(self.cellSize), int(self.cellSize)))
+        self.bodyDownRight = pygame.transform.scale(
+            pygame.image.load("assets/image/body/new/body_br.png").convert_alpha(),
+            (int(self.cellSize), int(self.cellSize)))
+        self.bodyDownLeft = pygame.transform.scale(
+            pygame.image.load("assets/image/body/new/body_bl.png").convert_alpha(),
+            (int(self.cellSize), int(self.cellSize)))
 
-    def drawSnake(self,screen):
+    def drawSnake(self, screen):
         self.updateHeadGraphics()
         self.updateTailGraphics()
         for index, block in enumerate(self.body):
@@ -91,19 +97,19 @@ class Snake:
 
     def changeDirection(self, direction: str):
         if direction == self.UP:
-            #self.direction = pygame.math.Vector2(0, -1)
+            # self.direction = pygame.math.Vector2(0, -1)
             if self.direction.y != 1:
                 self.direction = pygame.math.Vector2(0, -1)
         if direction == self.DOWN:
-            #self.direction = pygame.math.Vector2(0, 1)
+            # self.direction = pygame.math.Vector2(0, 1)
             if self.direction.y != -1:
                 self.direction = pygame.math.Vector2(0, 1)
         if direction == self.RIGHT:
-            #self.direction = pygame.math.Vector2(1, 0)
+            # self.direction = pygame.math.Vector2(1, 0)
             if self.direction.x != -1:
                 self.direction = pygame.math.Vector2(1, 0)
         if direction == self.LEFT:
-            #self.direction = pygame.math.Vector2(-1, 0)
+            # self.direction = pygame.math.Vector2(-1, 0)
             if self.direction.x != 1:
                 self.direction = pygame.math.Vector2(-1, 0)
 
@@ -121,16 +127,16 @@ class Snake:
     def updateTailGraphics(self):
         tailRelation = self.body[-2] - self.body[-1]
         if tailRelation == pygame.math.Vector2(1, 0):
-            #self.tail = self.tailRight
+            # self.tail = self.tailRight
             self.tail = self.tailLeft
         elif tailRelation == pygame.math.Vector2(-1, 0):
-            #self.tail = self.tailLeft
+            # self.tail = self.tailLeft
             self.tail = self.tailRight
         elif tailRelation == pygame.math.Vector2(0, 1):
-            #self.tail = self.tailDown
+            # self.tail = self.tailDown
             self.tail = self.tailUp
         elif tailRelation == pygame.math.Vector2(0, -1):
-            #self.tail = self.tailUp
+            # self.tail = self.tailUp
             self.tail = self.tailDown
 
     def reset(self):
