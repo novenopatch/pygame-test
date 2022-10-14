@@ -2,8 +2,9 @@ import pygame
 from Laser import  Laser
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, screen,speed:int):
+    def __init__(self, pos, screen,speed:int,sound):
         super().__init__()
+
         self.screen = screen
         self.speed = speed
         self.image = pygame.image.load('assets/images/player.png').convert_alpha()
@@ -12,7 +13,7 @@ class Player(pygame.sprite.Sprite):
         self.laser_time = 0
         self.laser_countdown = 600
         self.lasers = pygame.sprite.Group()
-
+        self.soundManager = sound
 
     def get_input(self):
 
@@ -40,3 +41,4 @@ class Player(pygame.sprite.Sprite):
 
     def shoot_lase(self):
         self.lasers.add(Laser(self.rect.center,-8,self.rect.bottom))
+        self.soundManager.play("laser",volume=0.5)
