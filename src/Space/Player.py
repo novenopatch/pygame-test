@@ -14,6 +14,7 @@ class Player(pygame.sprite.Sprite):
         self.laser_countdown = 600
         self.lasers = pygame.sprite.Group()
         self.soundManager = sound
+        self.lives = 5
 
     def get_input(self):
 

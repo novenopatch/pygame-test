@@ -5,13 +5,23 @@ class Alien (pygame.sprite.Sprite):
         file_path = "assets/images/" + color + ".png"
         self.image = pygame.image.load(file_path).convert_alpha()
         self.rect = self.image.get_rect(topleft =(x,y))
-        if color == 'red': self.value = 300
-        elif color == 'green': self.value = 200
-        else: self.value = 100
+        if color == 'red':
+            self.value = 300
+            self.heath = 5
+        elif color == 'green':
+            self.value = 100
+            self.heath = 1
+        else:
+            self.value = 100
+            self.heath = 3
+
 
     def update(self,direction):
         self.rect.x += direction
-
+    def update_health(self):
+        self.heath -= 1
+        if self.heath <= 0:
+            self.kill()
 
 class Extra  (pygame.sprite.Sprite):
     def __init__(self,side,screen_width):

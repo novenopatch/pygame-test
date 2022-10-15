@@ -16,7 +16,7 @@ class Game:
         self.player_sprite = Player((self.screen_width / 2, self.screen_height), screen, 5, self.soundManager)
         self.player = pygame.sprite.GroupSingle(self.player_sprite)
 
-        self.lives = 3
+       
         self.live_surf = pygame.image.load('assets/images/player.png').convert_alpha()
         self.live_x_start_pos = self.screen_width - (self.live_surf.get_size()[0] * 2 + 20)
         self.score = 0
@@ -34,7 +34,7 @@ class Game:
         self.aliens_create(rows=6, cols=8)
         self.alien_direction = 1
         self.alien_lasers = pygame.sprite.Group()
-        self.aliens_speed = 2
+        self.aliens_speed = 1
         self.extra = pygame.sprite.GroupSingle()
         self.extra_spawn_time = randint(400, 800)
 
@@ -101,11 +101,12 @@ class Game:
                 if pygame.sprite.spritecollide(laser, self.blocks, True):
                     self.soundManager.play("explosion", volume=0.3)
                     laser.kill()
-                alien_hit = pygame.sprite.spritecollide(laser, self.aliens, True)
-                self.soundManager.play("explosion", volume=0.3)
+                alien_hit = pygame.sprite.spritecollide(laser, self.aliens, False)
                 if alien_hit:
+                    self.soundManager.play("explosion", volume=0.3)
                     for alien in alien_hit:
                         self.score += alien.value
+                        alien.update_health()
                     laser.kill()
 
                 if pygame.sprite.spritecollide(laser, self.extra, True):
@@ -138,12 +139,12 @@ class Game:
         sys.exit()
 
     def update_lives(self):
-        self.lives -= 1
-        if self.lives <= 0:
+        self.player.sprite.lives -= 1
+        if self.player.sprite.lives <= 0:
             self.quit_game()
 
     def display_lives(self):
-        for live in range(self.lives - 1):
+        for live in range(self.player.sprite.lives - 1):
             x = self.live_x_start_pos + (live * self.live_surf.get_size()[0] + 10)
             self.screen.blit(self.live_surf, (x, 8))
 
