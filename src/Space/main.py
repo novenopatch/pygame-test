@@ -1,8 +1,8 @@
 import pygame
 import sys
 
-from src.Space.CRT import CRT
-from src.Space.Game import Game
+from CRT import CRT
+from Game import Game
 
 if __name__ == '__main__':
 

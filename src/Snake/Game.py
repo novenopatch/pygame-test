@@ -6,7 +6,8 @@ import pygame
 
 
 class Game:
-    def __init__(self, cellNumber: int, cellSize: int):
+    def __init__(self,screen, cellNumber: int, cellSize: int):
+        self.screen = screen
         self.cellNumber = cellNumber
         self.cellSize = cellSize
         self.snake = Snake(self.cellSize)
@@ -19,11 +20,11 @@ class Game:
         self.checkCollision()
         self.checkFail()
 
-    def drawElements(self, screen):
-        self.drawGrass(screen)
-        self.drawScore(screen)
-        self.snake.drawSnake(screen)
-        self.fruit.drawFruit(screen)
+    def drawElements(self):
+        self.drawGrass()
+        self.drawScore()
+        self.snake.drawSnake(self.screen)
+        self.fruit.drawFruit(self.screen)
 
     def checkCollision(self):
         if self.fruit.pos == self.snake.body[0]:
@@ -44,21 +45,21 @@ class Game:
     def gameOver(self):
         self.snake.reset()
 
-    def drawGrass(self, screen):
+    def drawGrass(self):
         grassColor = (167, 209, 61)
         for row in range(self.cellNumber):
             if row % 2 == 0:
                 for col in range(self.cellNumber):
                     if col % 2 == 0:
                         grassRect = pygame.Rect(col * self.cellSize, row * self.cellSize, self.cellSize, self.cellSize)
-                        pygame.draw.rect(screen, grassColor, grassRect)
+                        pygame.draw.rect(self.screen, grassColor, grassRect)
             else:
                 for col in range(self.cellNumber):
                     if col % 2 != 0:
                         grassRect = pygame.Rect(col * self.cellSize, row * self.cellSize, self.cellSize, self.cellSize)
-                        pygame.draw.rect(screen, grassColor, grassRect)
+                        pygame.draw.rect(self.screen, grassColor, grassRect)
 
-    def drawScore(self, screen):
+    def drawScore(self):
         scoreText = str(len(self.snake.body) - 3)
         scoreSurface = self.gameFont.render(scoreText, True, (56, 74, 12))
         scoreX = int(self.cellSize * self.cellNumber - 60)
@@ -69,7 +70,7 @@ class Game:
         bgRect = pygame.Rect(fruitRect.left, fruitRect.top, fruitRect.width + scoreRect.width + 6,
                              fruitRect.height)
 
-        pygame.draw.rect(screen, (167, 209, 61), bgRect)
-        screen.blit(scoreSurface, scoreRect)
-        screen.blit(self.fruit.image, fruitRect)
-        pygame.draw.rect(screen, (56, 74, 12), bgRect, 2)
+        pygame.draw.rect(self.screen, (167, 209, 61), bgRect)
+        self.screen.blit(scoreSurface, scoreRect)
+        self.screen.blit(self.fruit.image, fruitRect)
+        pygame.draw.rect(self.screen, (56, 74, 12), bgRect, 2)

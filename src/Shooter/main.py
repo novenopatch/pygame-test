@@ -1,4 +1,4 @@
-import pygame
+import pygame,sys
 from Game import Game
 import math
 
@@ -48,6 +48,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
+                sys.exit()
             elif event.type == pygame.KEYDOWN:
                 game.pressed[event.key] = True
                 if event.key == pygame.K_SPACE:

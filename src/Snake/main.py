@@ -1,34 +1,44 @@
 import sys, pygame, random
 from Game import Game
-pygame.init()
-cellSize = 40
-cellNumber = 20
-screen = pygame.display.set_mode((cellNumber * cellSize, cellNumber * cellSize))
-clock = pygame.time.Clock()
 
-running = True
-mainGame = Game(cellNumber, cellSize)
 
-SCREEN_UPDATE = pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE, 150)
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-            pygame.quit()
-            sys.exit()
-        if event.type == SCREEN_UPDATE:
-            mainGame.update()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                mainGame.snake.changeDirection(mainGame.snake.UP)
-            if event.key == pygame.K_DOWN:
-                mainGame.snake.changeDirection(mainGame.snake.DOWN)
-            if event.key == pygame.K_LEFT:
-                mainGame.snake.changeDirection(mainGame.snake.LEFT)
-            if event.key == pygame.K_RIGHT:
-                mainGame.snake.changeDirection(mainGame.snake.RIGHT)
-    screen.fill((215, 215, 70))
-    mainGame.drawElements(screen)
-    pygame.display.update()
-    clock.tick(60)
+class Setup:
+    def __init__(self):
+        pygame.init()
+        self.running = True
+        self.cellSize = 40
+        self.cellNumber = 20
+        self.screen = pygame.display.set_mode((self.cellNumber * self.cellSize, self.cellNumber * self.cellSize))
+        self.clock = pygame.time.Clock()
+        self.game = Game(self.screen, self.cellNumber, self.cellSize)
+
+        self.SCREEN_UPDATE = pygame.USEREVENT
+        pygame.time.set_timer(self.SCREEN_UPDATE, 150)
+
+    def run(self):
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    pygame.quit()
+                    sys.exit()
+                if event.type == self.SCREEN_UPDATE:
+                    self.game.update()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        self.game.snake.changeDirection(self.game.snake.UP)
+                    if event.key == pygame.K_DOWN:
+                        self.game.snake.changeDirection(self.game.snake.DOWN)
+                    if event.key == pygame.K_LEFT:
+                        self.game.snake.changeDirection(self.game.snake.LEFT)
+                    if event.key == pygame.K_RIGHT:
+                        self.game.snake.changeDirection(self.game.snake.RIGHT)
+            self.screen.fill((215, 215, 70))
+            self.game.drawElements()
+            pygame.display.update()
+            self.clock.tick(60)
+
+
+if __name__ == '__main__':
+    setup = Setup()
+    setup.run()
