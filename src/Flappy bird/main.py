@@ -42,6 +42,10 @@ def center_bird_rect(bird: pygame.Surface, screen: pygame.Surface) -> pygame.Rec
 
 def rotate_bird(bird:pygame.Surface,bird_movement:int):
     return pygame.transform.rotozoom(bird,-bird_movement*3,1)
+def bird_animation(bird_index:int,bird_frames:list[pygame.Surface],last_bird_rect:pygame.Rect,screen:pygame.Surface):
+    new_bird = bird_frames[bird_index]
+    new_bird_rect = new_bird.get_rect(center=((screen.get_width() - 76) / 5,last_bird_rect.centery))
+    return  new_bird,new_bird_rect
 def main():
     pygame.init()
     screen_width = 576
@@ -61,9 +65,19 @@ def main():
     # floor = pygame.transform.scale(floor, (screen_width, floor.get_height()))
     floor = pygame.transform.scale2x(floor)
     floor_x_position = 0
-    bird = pygame.image.load('assets/images/bluebird-midflap.png').convert_alpha()
-    bird = pygame.transform.scale2x(bird)
+
+    bird_downflap = pygame.transform.scale2x(pygame.image.load('assets/images/bluebird-downflap.png').convert_alpha())
+    bird_midflap = pygame.transform.scale2x(pygame.image.load('assets/images/bluebird-midflap.png').convert_alpha())
+    bird_upflap = pygame.transform.scale2x(pygame.image.load('assets/images/bluebird-upflap.png').convert_alpha())
+    bird_frames = [bird_downflap,bird_midflap,bird_upflap]
+    bird_index = 0
+    bird = bird_frames[bird_index]
     bird_rect = center_bird_rect(bird,screen)
+    BIRDFLAP = pygame.USEREVENT +1
+    pygame.time.set_timer(BIRDFLAP,200)
+    #bird = pygame.image.load('assets/images/bluebird-midflap.png').convert_alpha()
+    #bird = pygame.transform.scale2x(bird)
+    #bird_rect = center_bird_rect(bird,screen)
 
     pipe = pygame.image.load('assets/images/pipe-green.png').convert_alpha()
     pipe = pygame.transform.scale2x(pipe)
@@ -88,6 +102,13 @@ def main():
 
             if event.type == SPAWN_PIPE:
                 pipe_list.extend(create_pipe(pipe, screen, pipe_height))
+            if event.type == BIRDFLAP:
+                if bird_index < 2:
+                    bird_index += 1
+                else:
+                    bird_index = 0
+                bird,bird_rect = bird_animation(bird_index,bird_frames,bird_rect,screen)
+
 
         screen.blit(bg, (0, 0))
         if game_active:
