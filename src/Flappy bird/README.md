@@ -8,3 +8,6 @@
 #add midtop and midbottom pip
 #add collison of bird and pipe and if bird out of screen
 #add bird rotate and bird annimation
+#add score
+#add game over screen
+#add sound
