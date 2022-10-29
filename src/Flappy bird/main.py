@@ -40,7 +40,8 @@ def check_colliion(pipes: list[pygame.Surface], bird_rect: pygame.Rect) -> bool:
 def center_bird_rect(bird: pygame.Surface, screen: pygame.Surface) -> pygame.Rect:
     return bird.get_rect(center=((screen.get_width() - 76) / 5, screen.get_height() / 2))
 
-
+def rotate_bird(bird:pygame.Surface,bird_movement:int):
+    return pygame.transform.rotozoom(bird,-bird_movement*3,1)
 def main():
     pygame.init()
     screen_width = 576
@@ -60,11 +61,11 @@ def main():
     # floor = pygame.transform.scale(floor, (screen_width, floor.get_height()))
     floor = pygame.transform.scale2x(floor)
     floor_x_position = 0
-    bird = pygame.image.load('assets/images/bluebird-midflap.png').convert()
+    bird = pygame.image.load('assets/images/bluebird-midflap.png').convert_alpha()
     bird = pygame.transform.scale2x(bird)
     bird_rect = center_bird_rect(bird,screen)
 
-    pipe = pygame.image.load('assets/images/pipe-green.png').convert()
+    pipe = pygame.image.load('assets/images/pipe-green.png').convert_alpha()
     pipe = pygame.transform.scale2x(pipe)
 
     pipe_list = []
@@ -91,8 +92,9 @@ def main():
         screen.blit(bg, (0, 0))
         if game_active:
             bird_movement += gravity
+            rotated_bird = rotate_bird(bird,bird_movement)
             bird_rect.centery += bird_movement
-            screen.blit(bird, bird_rect)
+            screen.blit(rotated_bird, bird_rect)
             game_active = check_colliion(pipe_list, bird_rect)
 
             pipe_list = move_pipes(pipe_list)
