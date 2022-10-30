@@ -22,7 +22,6 @@ class Game():
         self.floor: Floor = Floor(screen)
         self.score: int = 0
         self.high_score: int = 0
-        self.pipes_group = pygame.sprite.Group()
         self.pipe: Pipe = Pipe()
         self.pipes: list[pygame.Rect] = []
         self.pipe_height: list[int] = [400, 600, 800]
