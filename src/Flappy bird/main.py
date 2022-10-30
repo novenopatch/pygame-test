@@ -6,7 +6,7 @@ def draw_floor(screen: pygame.Surface, floor: pygame.Surface, floor_x_position: 
     screen.blit(floor, (floor_x_position + screen.get_width(), screen.get_height() - 100))
 
 
-def create_pipe(pipe_surface: pygame.Surface, screen: pygame.Surface, pipe_height: list) -> tuple:
+def create_pipe(pipe_surface: pygame.Surface, pipe_height: list[int]) -> tuple:
     pipe_pos = random.choice(pipe_height)
     bottom_pipe = pipe_surface.get_rect(midtop=(700, pipe_pos))
     top_pipe = pipe_surface.get_rect(midbottom=(700, pipe_pos - 300))
@@ -16,7 +16,8 @@ def create_pipe(pipe_surface: pygame.Surface, screen: pygame.Surface, pipe_heigh
 def move_pipes(pipes: list[pygame.Rect]) -> list[pygame.Rect]:
     for pipe in pipes:
         pipe.centerx -= 5
-    return pipes
+    visibles_pipes = [pipe for pipe in pipes if pipe.right > -50]
+    return visibles_pipes
 
 
 def draw_pipes(pipes: list[pygame.Rect], pipe_surface: pygame.Surface, screen: pygame.Surface):
@@ -28,7 +29,7 @@ def draw_pipes(pipes: list[pygame.Rect], pipe_surface: pygame.Surface, screen: p
             screen.blit(flip_pip, pipe)
 
 
-def check_collision(pipes: list[pygame.Surface], bird_rect: pygame.Rect, sound:pygame.mixer.Sound) -> bool:
+def check_collision(pipes: list[pygame.Surface], bird_rect: pygame.Rect, sound: pygame.mixer.Sound) -> bool:
     for pipe in pipes:
         if bird_rect.colliderect(pipe):
             sound.play()
@@ -68,15 +69,22 @@ def score_display(game_state: bool, game_font: pygame.font.Font, screen: pygame.
         high_score_rect = high_score_surface.get_rect(center=(288, 850))
         screen.blit(high_score_surface, high_score_rect)
 
-def update_score(score:int,high_score:int)->tuple:
+
+def update_score(score: int, high_score: int) -> tuple:
     score += 0.01
     if score > high_score:
         high_score = score
-    return score,high_score
+    return score, high_score
+
+
+def pipes_score_check(pipes: list[pygame.Surface], score: int, sound: pygame.mixer.Sound):
+    for pipe in pipes:
+        if 95 < pipe.get_rect().centerx < 105:
+            score += 1
+            sound.play()
+
 
 def main():
-    #pygame.mixer.pre_init(frequency=44100,size=16,channels=2,buffer=512)
-    pygame.mixer.pre_init()
     pygame.init()
     screen_width = 576
     screen_height = 1024
@@ -120,7 +128,7 @@ def main():
     pygame.time.set_timer(SPAWN_PIPE, 1200)
     pipe_height = [400, 600, 800]
     game_over = pygame.transform.scale2x(pygame.image.load('assets/images/message.png').convert_alpha())
-    game_over_rect = game_over.get_rect(center=(screen_width/2,screen_height/2))
+    game_over_rect = game_over.get_rect(center=(screen_width / 2, screen_height / 2))
     flap_sound = pygame.mixer.Sound('assets/audio/wing.wav')
     death_sound = pygame.mixer.Sound('assets/audio/hit.wav')
     score_sound = pygame.mixer.Sound('assets/audio/point.wav')
@@ -143,9 +151,8 @@ def main():
                     bird_rect = center_bird_rect(bird, screen)
                     score = 0
 
-
             if event.type == SPAWN_PIPE:
-                pipe_list.extend(create_pipe(pipe, screen, pipe_height))
+                pipe_list.extend(create_pipe(pipe, pipe_height))
             if event.type == BIRDFLAP:
                 if bird_index < 2:
                     bird_index += 1
@@ -159,21 +166,21 @@ def main():
             rotated_bird = rotate_bird(bird, bird_movement)
             bird_rect.centery += bird_movement
             screen.blit(rotated_bird, bird_rect)
-            game_active = check_collision(pipe_list, bird_rect,death_sound)
+            game_active = check_collision(pipe_list, bird_rect, death_sound)
 
             pipe_list = move_pipes(pipe_list)
             draw_pipes(pipe_list, pipe, screen)
             score_display(game_active, game_font, screen, score)
-            score,high_score=update_score(score,high_score)
-            score_sound_countdown -=1
-            if score_sound_countdown <=0:
+            score, high_score = update_score(score, high_score)
+            score_sound_countdown -= 1
+            if score_sound_countdown <= 0:
                 score_sound_countdown = 200
                 score_sound.play()
 
             floor_x_position -= 1
             draw_floor(screen, floor, floor_x_position)
         else:
-            screen.blit(game_over,game_over_rect)
+            screen.blit(game_over, game_over_rect)
             score_display(game_active, game_font, screen, score, high_score)
         if floor_x_position <= -screen_width:
             floor_x_position = 0
