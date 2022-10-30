@@ -1,12 +1,7 @@
 import pygame
-
-
+from Direction import Direction
 class Snake:
     def __init__(self, cellSize):
-        self.UP = "up"
-        self.DOWN = "down"
-        self.RIGHT = "right"
-        self.LEFT = "left"
         self.cellSize = cellSize
         self.body = [pygame.math.Vector2(5, 10), pygame.math.Vector2(4, 10), pygame.math.Vector2(3, 10)]
         self.direction = pygame.math.Vector2(0, 0)
@@ -95,20 +90,20 @@ class Snake:
     def adBlock(self):
         self.newBlock = True
 
-    def changeDirection(self, direction: str):
-        if direction == self.UP:
+    def changeDirection(self, direction: Direction):
+        if direction == Direction.UP:
             # self.direction = pygame.math.Vector2(0, -1)
             if self.direction.y != 1:
                 self.direction = pygame.math.Vector2(0, -1)
-        if direction == self.DOWN:
+        if direction == Direction.DOWN:
             # self.direction = pygame.math.Vector2(0, 1)
             if self.direction.y != -1:
                 self.direction = pygame.math.Vector2(0, 1)
-        if direction == self.RIGHT:
+        if direction == Direction.RIGHT:
             # self.direction = pygame.math.Vector2(1, 0)
             if self.direction.x != -1:
                 self.direction = pygame.math.Vector2(1, 0)
-        if direction == self.LEFT:
+        if direction == Direction.LEFT:
             # self.direction = pygame.math.Vector2(-1, 0)
             if self.direction.x != 1:
                 self.direction = pygame.math.Vector2(-1, 0)

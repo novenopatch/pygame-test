@@ -1,6 +1,6 @@
 import sys, pygame, random
 from Game import Game
-
+from Direction import Direction
 
 class Setup:
     def __init__(self):
@@ -26,13 +26,13 @@ class Setup:
                     self.game.update()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
-                        self.game.snake.changeDirection(self.game.snake.UP)
+                        self.game.snake.changeDirection(Direction.UP)
                     if event.key == pygame.K_DOWN:
-                        self.game.snake.changeDirection(self.game.snake.DOWN)
+                        self.game.snake.changeDirection(Direction.DOWN)
                     if event.key == pygame.K_LEFT:
-                        self.game.snake.changeDirection(self.game.snake.LEFT)
+                        self.game.snake.changeDirection(Direction.LEFT)
                     if event.key == pygame.K_RIGHT:
-                        self.game.snake.changeDirection(self.game.snake.RIGHT)
+                        self.game.snake.changeDirection(Direction.RIGHT)
             self.screen.fill((215, 215, 70))
             self.game.drawElements()
             pygame.display.update()

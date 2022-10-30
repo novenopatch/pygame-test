@@ -1,7 +1,7 @@
 import pygame,sys
 
 from Game import Game
-
+from Enumeration import Sounds
 def main():
     pygame.init()
     frame_rate = 120
@@ -24,7 +24,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and game.game_is_playing:
                     game.bird.sprite.update_movement()
-                    # flap_sound.play()
+                    game.sounds_manager.play(Sounds.FLAP)
                 if event.key == pygame.K_SPACE and not game.game_is_playing:
                     game.remake_game()
             if event.type == SPAWN_PIPE:
