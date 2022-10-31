@@ -3,7 +3,8 @@ from Bird import Bird
 from Floor import Floor
 from Pipe import Pipe
 from Sounds import SoundManager
-from Enumeration import Sounds
+from Enumeration import Sounds,SaveData
+from Save import Save
 
 
 class Game():
@@ -20,8 +21,9 @@ class Game():
         self.game_over_rect: pygame.Rect = self.game_over.get_rect(
             center=(self.screen_width / 2, self.screen_height / 2))
         self.floor: Floor = Floor(screen)
-        self.score: int = 0
-        self.high_score: int = 0
+        self.save:Save = Save()
+        self.score: int = self.save.get_data(SaveData.SCORE)
+        self.high_score: int = self.save.get_data(SaveData.HIGH_SCORE)
         self.pipe: Pipe = Pipe()
         self.pipes: list[pygame.Rect] = []
         self.pipe_height: list[int] = [400, 600, 800]
@@ -65,6 +67,7 @@ class Game():
             score_rect = score_surface.get_rect(center=(288, 100))
             self.screen.blit(score_surface, score_rect)
         else:
+            self.save.update_scores((int(self.score),int(self.high_score)))
             score_surface = self.game_font.render(f'Score = {str(int(self.score))} ', True, (255, 255, 255))
             score_rect = score_surface.get_rect(center=(288, 100))
             self.screen.blit(score_surface, score_rect)
