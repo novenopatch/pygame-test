@@ -5,6 +5,7 @@ from Pipe import Pipe
 from Sounds import SoundManager
 from Enumeration import Sounds,SaveData
 from Save import Save
+from Score import  Score
 
 
 class Game():
@@ -63,13 +64,18 @@ class Game():
 
     def score_display(self):
         if self.game_is_playing:
-            score_surface = self.game_font.render(str(int(self.score)), True, (255, 255, 255))
-            score_rect = score_surface.get_rect(center=(288, 100))
-            self.screen.blit(score_surface, score_rect)
+
+            score = Score()
+            score_surface = score.get_score(score=int(self.score))
+            pos_x = 288
+            for surf in score_surface:
+                self.screen.blit(surf, surf.get_rect(center=(pos_x, 100)))
+                pos_x += 15
         else:
+
             self.save.update_scores((int(self.score),int(self.high_score)))
-            score_surface = self.game_font.render(f'Score = {str(int(self.score))} ', True, (255, 255, 255))
-            score_rect = score_surface.get_rect(center=(288, 100))
+            score_surface = self.game_font.render(f'Last Score = {str(int(self.score))} ', True, (255, 255, 255))
+            score_rect = score_surface.get_rect(center=(288, 200))
             self.screen.blit(score_surface, score_rect)
 
             high_score_surface = self.game_font.render(f'High Score = {str(int(self.high_score))} ', True,
