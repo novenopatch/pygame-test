@@ -5,7 +5,7 @@ class Floor(pygame.sprite.Sprite):
     def __init__(self, screen:pygame.Surface):
         super().__init__()
         self.screen = screen
-        self.image = pygame.image.load('assets/images/base.png').convert_alpha()
+        self.image = pygame.image.load('assets/images/floor/base.png').convert_alpha()
         self.image = pygame.transform.scale2x(self.image)
         self.position_x = 0
 

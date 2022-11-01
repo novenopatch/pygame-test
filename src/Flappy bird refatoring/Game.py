@@ -6,17 +6,20 @@ from Sounds import SoundManager
 from Enumeration import Sounds,SaveData
 from Save import Save
 from Score import  Score
-
+from Level import Level
 
 class Game():
-    def __init__(self, screen: pygame.Surface):
+    def __init__(self, screen: pygame.Surface,levels:list[Level]):
         self.screen: pygame.Surface = screen
         self.screen_width: int = screen.get_width()
         self.screen_height: int = screen.get_height()
         self.game_font: pygame.font.Font = pygame.font.Font("assets/font/Pixeled.ttf", 20)
         self.game_is_playing: bool = False
-        self.bird_sprite: Bird = Bird(screen)
+        self.levels = levels
+        self.current_level = self.levels[0]
+        self.bird_sprite: Bird = Bird(screen,self.current_level.bird_frames)
         self.bird: pygame.sprite.GroupSingle = pygame.sprite.GroupSingle(self.bird_sprite)
+        self.bg:pygame.Surface = self.current_level.BG
         self.game_over: pygame.Surface = pygame.transform.scale2x(
             pygame.image.load('assets/images/message.png').convert_alpha())
         self.game_over_rect: pygame.Rect = self.game_over.get_rect(
@@ -25,10 +28,10 @@ class Game():
         self.save:Save = Save()
         self.score: int = self.save.get_data(SaveData.SCORE)
         self.high_score: int = self.save.get_data(SaveData.HIGH_SCORE)
-        self.pipe: Pipe = Pipe()
+        self.pipe: Pipe = self.current_level.pipe
         self.pipes: list[pygame.Rect] = []
-        self.pipe_height: list[int] = [400, 600, 800]
-        self.pipe_spacing: int = 300
+        self.pipe_height: list[int] = self.current_level.PIPE_HEIGHT_LIST
+        self.pipe_spacing: int = self.current_level.PIPE_SPACING
         self.pipe_starting_pos_x: int = 700
         self.score_sound_countdown: int = 200
         self.sounds_manager: SoundManager = SoundManager()
@@ -62,9 +65,13 @@ class Game():
             self.high_score = self.score
         return self.score, self.high_score
 
+    def display_level(self):
+        level_surface = self.game_font.render(self.current_level.name, True, (255, 255, 255))
+        level_rect = level_surface.get_rect(center=(288, 50))
+        self.screen.blit(level_surface, level_rect)
     def score_display(self):
         if self.game_is_playing:
-
+            self.display_level()
             score = Score()
             score_surface = score.get_score(score=int(self.score))
             pos_x = 288

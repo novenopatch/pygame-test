@@ -2,15 +2,11 @@ import pygame
 
 
 class Bird(pygame.sprite.Sprite):
-    def __init__(self, screen: pygame.Surface):
+    def __init__(self, screen: pygame.Surface,bird_frames:list[pygame.Surface]=None):
         super().__init__()
 
         self.screen = screen
-        bird_downflap = pygame.transform.scale2x(
-            pygame.image.load('assets/images/bluebird-downflap.png').convert_alpha())
-        bird_midflap = pygame.transform.scale2x(pygame.image.load('assets/images/bluebird-midflap.png').convert_alpha())
-        bird_upflap = pygame.transform.scale2x(pygame.image.load('assets/images/bluebird-upflap.png').convert_alpha())
-        self.bird_frames = [bird_downflap, bird_midflap, bird_upflap]
+        self.bird_frames = bird_frames
         self.bird_index = 0
         self.image = self.bird_frames[self.bird_index]
         self.rect = self.center_bird_rect()

@@ -1,21 +1,23 @@
-import pygame,sys
+import pygame, sys
 
 from Game import Game
-from Enumeration import Sounds
+from Enumeration import *
+from Level import Level
+
+
 def main():
     pygame.init()
     frame_rate = 120
     screen_width = 576
     screen_height = 1024
-    BIRDFLAP = pygame.USEREVENT + 1
-    pygame.time.set_timer(BIRDFLAP, 200)
-    SPAWN_PIPE = pygame.USEREVENT
-    pygame.time.set_timer(SPAWN_PIPE, 1200)
-    clock = pygame.time.Clock()
     screen = pygame.display.set_mode((screen_width, screen_height))
-    bg = pygame.image.load('assets/images/background-day.png').convert_alpha()
-    bg = pygame.transform.scale2x(bg)
-    game = Game(screen)
+    game = Game(screen, [Level("Level 1", GameBackground.NIGHT, BirdColor.YELLOW, PipeColor.RED)])
+    BIRDFLAP = pygame.USEREVENT + 1
+    pygame.time.set_timer(BIRDFLAP, game.current_level.BIRD_FLAP_TIME)
+    SPAWN_PIPE = pygame.USEREVENT
+    pygame.time.set_timer(SPAWN_PIPE, game.current_level.SPAWN_PIPE_TIME)
+    clock = pygame.time.Clock()
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -32,7 +34,7 @@ def main():
                 game.spawn_pipes()
             if event.type == BIRDFLAP:
                 game.bird.sprite.on_event_bird_flap()
-        screen.blit(bg, (0, 0))
+        screen.blit(game.bg, (0, 0))
         if game.game_is_playing:
             game.run()
         else:
