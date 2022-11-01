@@ -7,13 +7,15 @@ from Pipe import Pipe
 
 class Level():
     def __init__(self, name: str,
+                 high_score:int,
                  bg_color: GameBackground,
                  bird_color: BirdColor,
                  pipe_color: PipeColor,
                  pipe_height_list=None,
                  bird_flap_time: int = 200, spawn_pipe_time: int = 1200,
-                 pipe_spacing: int = 600):
+                 pipe_spacing: int = 300):
         self.name = name
+        self.high_score = high_score
         if pipe_height_list is None:
             pipe_height_list = [400, 600, 800]
         self.BG: pygame.Surface = self.get_bg_surface(bg_color)
@@ -54,16 +56,10 @@ class Level():
                 pygame.transform.scale2x(pygame.image.load(
                     'assets/images/bird/red/redbird-downflap.png').convert_alpha()),
                 pygame.transform.scale2x(pygame.image.load(
-                    'assets/images/bird/red/bluebird-midflap.png').convert_alpha()),
+                    'assets/images/bird/red/redbird-midflap.png').convert_alpha()),
                 pygame.transform.scale2x(pygame.image.load(
                     'assets/images/bird/red/redbird-upflap.png').convert_alpha())
             ]
 
     def get_pipe(self, pipe_color: PipeColor) -> Pipe:
-        pipe:Pipe = Pipe
-        if pipe_color == PipeColor.RED:
-            pipe.image = pygame.transform.scale2x(pygame.image.load('assets/images/pipe/pipe-red.png').convert_alpha())
-        elif pipe_color == PipeColor.GREEN:
-            pipe.image = pygame.transform.scale2x(
-                pygame.image.load('assets/images/pipe/pipe-green.png').convert_alpha())
-        return pipe
+        return Pipe(pipe_color)

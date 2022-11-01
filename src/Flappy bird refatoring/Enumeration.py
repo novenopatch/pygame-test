@@ -19,3 +19,9 @@ class BirdColor(Enum):
 class PipeColor(Enum):
     GREEN = 1
     RED = 2
+
+class GameState(Enum):
+    IS_PLAYING =1
+    IS_GAME_OVER = 2
+    IS_END_LEVEl_AND_GO_TO_NEXT_LEVEL = 3
+    IS_PAUSE = 4
