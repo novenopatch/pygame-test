@@ -21,7 +21,7 @@ def main():
     screen_width = 576
     screen_height = 1024
     screen = pygame.display.set_mode((screen_width, screen_height))
-    game = Game(screen, [
+    game = Game(screen,[
         Level("Level 1",40, GameBackground.DAY, BirdColor.BLUE, PipeColor.GREEN),
         Level("Level 2", 80, GameBackground.DAY, BirdColor.BLUE, PipeColor.RED),
         Level("Level 3", 100, GameBackground.DAY, BirdColor.BLUE, PipeColor.GREEN),
@@ -29,6 +29,7 @@ def main():
         Level("Level 5", 150, GameBackground.DAY, BirdColor.YELLOW, PipeColor.RED),
         Level("Level 6", 160, GameBackground.NIGHT, BirdColor.RED, PipeColor.RED),
     ])
+    frame_rate = game.save.get_data(SaveData.FRAME_RATE)
     BIRDFLAP = pygame.USEREVENT + 1
     pygame.time.set_timer(BIRDFLAP, game.current_level.BIRD_FLAP_TIME)
     SPAWN_PIPE = pygame.USEREVENT
@@ -50,7 +51,7 @@ def main():
                 game.spawn_pipes()
             if event.type == BIRDFLAP:
                 game.bird.sprite.on_event_bird_flap()
-        screen.blit(game.bg, (0, 0))
+        game.screen.blit(game.bg, (0, 0))
         if game.game_state==GameState.IS_PLAYING:
             game.run()
         elif game.game_state == GameState.IS_GAME_OVER:
@@ -61,7 +62,7 @@ def main():
             game.update_screen_on_start_new_level()
             pygame.time.set_timer(BIRDFLAP, game.current_level.BIRD_FLAP_TIME)
             pygame.time.set_timer(SPAWN_PIPE, game.current_level.SPAWN_PIPE_TIME)
-            screen.blit(game.bg, (0, 0))
+            game.screen.blit(game.bg, (0, 0))
 
         game.update_floor_position()
         pygame.display.update()

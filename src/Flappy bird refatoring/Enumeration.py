@@ -6,8 +6,12 @@ class Sounds(Enum):
     DEATH = 2
     SCORE = 3
 class SaveData(Enum):
+
     HIGH_SCORE = 1
     SCORE = 2
+    SCREEN_HEIGHT =3
+    SCREEN_WIDTH = 4
+    FRAME_RATE = 5
 
 class GameBackground(Enum):
     NIGHT = 1

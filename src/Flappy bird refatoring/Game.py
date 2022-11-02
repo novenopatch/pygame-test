@@ -15,9 +15,9 @@ class Game():
         self.screen_height: int = screen.get_height()
         self.game_font: pygame.font.Font = pygame.font.Font("assets/font/Pixeled.ttf", 20)
         self.game_state:GameState  = GameState.IS_PAUSE
-        self.current_level_int = 1
-        self.levels = levels
-        self.current_level = self.levels[self.current_level_int-1]
+        self.current_level_int:int = 1
+        self.levels:list[Level] = levels
+        self.current_level:Level = self.levels[self.current_level_int-1]
         self.bird_sprite: Bird = Bird(screen,self.current_level.bird_frames)
         self.bg: pygame.Surface = self.current_level.BG
         self.pipe_height: list[int] = self.current_level.PIPE_HEIGHT_LIST
@@ -61,6 +61,9 @@ class Game():
         self.floor.draw()
 
     def update_screen_on_start_new_level(self):
+        self.update_elements()
+        self.game_state = GameState.IS_PLAYING
+    def update_elements(self):
         self.current_level = self.levels[self.current_level_int - 1]
         self.bird_sprite: Bird = Bird(self.screen, self.current_level.bird_frames)
         self.bird: pygame.sprite.GroupSingle = pygame.sprite.GroupSingle(self.bird_sprite)
@@ -68,17 +71,9 @@ class Game():
         self.pipe: Pipe = self.current_level.pipe
         self.pipe_height: list[int] = self.current_level.PIPE_HEIGHT_LIST
         self.pipe_spacing: int = self.current_level.PIPE_SPACING
-        #self.bird.sprite.bird_movement = 0
-        #self.pipes.clear()
-        #self.bird.sprite.rect = self.bird.sprite.center_bird_rect()
-        self.game_state = GameState.IS_PLAYING
     def update_screen_on_over_game(self):
         self.current_level_int = 1
-        self.current_level = self.levels[self.current_level_int - 1]
-        self.bird_sprite: Bird = Bird(self.screen, self.current_level.bird_frames)
-        self.bg: pygame.Surface = self.current_level.BG
-        self.pipe_height: list[int] = self.current_level.PIPE_HEIGHT_LIST
-        self.pipe_spacing: int = self.current_level.PIPE_SPACING
+        self.update_elements()
         self.screen.blit(self.game_over, self.game_over_rect)
         self.score_display()
     def update_screen_on_pause_game(self):
